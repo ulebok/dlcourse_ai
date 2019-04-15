@@ -13,7 +13,7 @@ class KNN:
         self.train_y = y
 
     def predict(self, X, num_loops=0):
-        '''
+        """
         Uses the KNN model to predict clases for the data samples provided
         
         Arguments:
@@ -24,7 +24,7 @@ class KNN:
         Returns:
         predictions, np array of ints (num_samples) - predicted class
            for each sample
-        '''
+        """
         if num_loops == 0:
             dists = self.compute_distances_no_loops(X)
         elif num_loops == 1:
@@ -36,10 +36,9 @@ class KNN:
             return self.predict_labels_binary(dists)
         else:
             return self.predict_labels_multiclass(dists)
-        
 
     def compute_distances_two_loops(self, X):
-        '''
+        """
         Computes L1 distance from every sample of X to every training sample
         Uses simplest implementation with 2 Python loops
 
@@ -49,7 +48,7 @@ class KNN:
         Returns:
         dists, np array (num_test_samples, num_train_samples) - array
            with distances between each test and each train sample
-        '''
+        """
         num_train = self.train_X.shape[0]
         num_test = X.shape[0]
         dists = np.zeros((num_test, num_train), np.float32)
@@ -57,10 +56,9 @@ class KNN:
             for i_train in range(num_train):
                 dists[i_test][i_train] = np.sum(np.abs(self.train_X[i_train] - X[i_test]), dtype=np.float32)
         return dists 
- 
 
     def compute_distances_one_loop(self, X):
-        '''
+        """
         Computes L1 distance from every sample of X to every training sample
         Vectorizes some of the calculations, so only 1 loop is used
 
@@ -70,7 +68,7 @@ class KNN:
         Returns:
         dists, np array (num_test_samples, num_train_samples) - array
            with distances between each test and each train sample
-        '''
+        """
         num_train = self.train_X.shape[0]
         num_test = X.shape[0]
         dists = np.zeros((num_test, num_train), np.float32)
@@ -94,7 +92,7 @@ class KNN:
         return dists
 
     def predict_labels_binary(self, dists):
-        '''
+        """
         Returns model predictions for binary classification case
         
         Arguments:
@@ -104,7 +102,7 @@ class KNN:
         Returns:
         pred, np array of bool (num_test_samples) - binary predictions 
            for every test sample
-        '''
+        """
         num_test = dists.shape[0]
         pred = np.zeros(num_test, np.bool)
         for i in range(num_test):
@@ -112,7 +110,7 @@ class KNN:
         return pred
 
     def predict_labels_multiclass(self, dists):
-        '''
+        """
         Returns model predictions for multi-class classification case
         
         Arguments:
@@ -122,7 +120,7 @@ class KNN:
         Returns:
         pred, np array of int (num_test_samples) - predicted class index 
            for every test sample
-        '''
+        """
         num_test = dists.shape[0]
         pred = np.zeros(num_test, np.int)
         for i in range(num_test):
